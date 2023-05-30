@@ -11,7 +11,7 @@ I don't know");
         let mut guess = String::new();
 
         io::stdin().read_line(&mut guess)
-            .expect("Erreur lors de la lecture de l'entrée.");
+            .expect("Erreur read input");
 
         let guess = guess.trim();
 
