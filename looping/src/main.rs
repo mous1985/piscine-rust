@@ -2,27 +2,28 @@ use std::io;
 
 fn main() {
     let mut tries = 0;
-    let answer = "The letter e";
+    let answer = "e";
 
-    println!("I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?");
+    println!("Riddle: I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?");
 
     loop {
         let mut guess = String::new();
 
-        io::stdin().read_line(&mut guess)
-            .expect("Erreur lors de la lecture de l'entrée.");
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Error reading input.");
 
         let guess = guess.trim();
 
         tries += 1;
 
         if guess == answer {
-            println!("Bonne réponse !");
+            println!("Correct answer!");
             break;
         } else {
-            println!("mauvaise réponse");
+            println!("Wrong answer. Try again.");
         }
     }
 
-    println!("Nombre d'essais nécessaires : {}", tries);
+    println!("Number of tries needed: {}", tries);
 }
