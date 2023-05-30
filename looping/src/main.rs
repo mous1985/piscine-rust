@@ -2,16 +2,15 @@ use std::io;
 
 fn main() {
     let mut tries = 0;
-    let answer = "e";
+    let answer = "The letter e";
 
-    println!("I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?
-I don't know");
+    println!("I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?");
 
     loop {
         let mut guess = String::new();
 
         io::stdin().read_line(&mut guess)
-            .expect("Erreur read input");
+            .expect("Erreur lors de la lecture de l'entrée.");
 
         let guess = guess.trim();
 
@@ -21,9 +20,9 @@ I don't know");
             println!("Bonne réponse !");
             break;
         } else {
-            println!("Mauvaise réponse. Essayez encore.");
+            println!("mauvaise réponse");
         }
     }
 
-    println!("Number of trials: {}", tries);
+    println!("Nombre d'essais nécessaires : {}", tries);
 }
