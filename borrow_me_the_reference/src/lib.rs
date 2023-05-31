@@ -1,28 +1,35 @@
 pub fn delete_and_backspace(s: &mut String) {
     let mut result = String::new();
-    let mut skip = false;
-
+    let mut next = 0;
+    
     for c in s.chars() {
-        if skip {
-            skip = false;
-            continue;
-        }
-
         match c {
+            
             '-' => {
-                result.pop(); // Supprimer le dernier caractère de la chaîne résultante
+                
+                result.pop(); 
             }
+    
             '+' => {
-                skip = true; // Ignorer le prochain caractère
+                
+                next += 1;
             }
+            
             _ => {
-                result.push(c);
+                
+                if next == 0 {
+                    result.push(c);
+                } else {
+                    
+                    next -= 1
+                }
             }
         }
     }
-
-    *s = result;
+    
+    *s = result
 }
+
 
 pub fn do_operations(vec: &mut Vec<String>) {
     for equation in vec.iter_mut() {
