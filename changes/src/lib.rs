@@ -4,7 +4,6 @@ pub struct Light {
 	pub brightness: u8,
 }
 
-pub fn new(alias: &str) -> Self {
     impl Light {
             pub fn new(alias: &str) -> Self {
                 Self {
