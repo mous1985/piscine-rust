@@ -6,11 +6,13 @@ pub fn id(student: &Student) -> i32 {
 }
 
 pub fn first_name(student: &Student) -> String {
-    student.1.clone()
+    let first=student.1.clone();
+    first
 }
 
 pub fn last_name(student: &Student) -> String {
-    student.2.clone()
+    let last=student.2.clone();
+    last
 }
 
 
