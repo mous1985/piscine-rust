@@ -9,7 +9,11 @@ impl Message {
     }
 
     pub fn send_ms(&self) -> Option<&str> {
-        self.ms.as_ref().map(String::as_str)
+        if self.ms.is_empty() {
+            None
+        } else {
+            Some(&self.ms)
+        }
     }
 }
 
