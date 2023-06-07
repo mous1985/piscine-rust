@@ -28,7 +28,9 @@ pub fn title_case(input: &str) -> String {
             result.push(' ');
         }
     }
-result
+
+    result = result.trim_end().to_string();
+    result
 }
 pub fn change_case(input: &str) -> String {
     let mut result = String::new();
