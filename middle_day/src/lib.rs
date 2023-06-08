@@ -1,9 +1,9 @@
 extern crate chrono;
 use chrono::{Datelike, NaiveDate, Weekday};
 
-pub type wd = Weekday;
+pub type Wd = Weekday;
 
-pub fn middle_day(year: i32) -> Option<wd> {
+pub fn middle_day(year: i32) -> Option<Wd> {
     let first_day = NaiveDate::from_ymd_opt(year, 1, 1)?;
     let last_day = NaiveDate::from_ymd_opt(year, 12, 31)?;
 
