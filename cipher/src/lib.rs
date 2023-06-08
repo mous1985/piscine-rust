@@ -13,9 +13,9 @@ impl CipherError {
     }
 }
 
-pub fn cipher(original: &str, ciphered: &str) -> Result<Result<bool, CipherError>, ()> {
+pub fn cipher(original: &str, ciphered: &str) -> Option<Result<bool, CipherError>> {
     if ciphered.is_empty() || original.is_empty() {
-        return Err(());
+        return None;
     }
 
     let expected = original
@@ -28,8 +28,8 @@ pub fn cipher(original: &str, ciphered: &str) -> Result<Result<bool, CipherError
         .collect::<String>();
 
     if expected == ciphered {
-        Ok(Ok(true))
+        Some(Ok(true))
     } else {
-        Ok(Err(CipherError::new(false, expected)))
+        Some(Err(CipherError::new(false, expected)))
     }
 }
