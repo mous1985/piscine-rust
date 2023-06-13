@@ -9,17 +9,17 @@ pub struct Player {
 }
 impl fmt::Display for Player {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "Name: {}\n", self.name)?;
-        write!(
-            f,
-            "Strength: {}, Score: {}, Money: {}\n",
-            self.strength, self.score, self.money
-        )?;
-        write!(f, "Weapons: ")?;
-        for weapon in &self.weapons {
-            write!(f, "{} ", weapon)?;
+        writeln!(f, "Name: {}", self.name)?;
+        writeln!(f, "Strength: {}, Score: {}, Money: {}", self.strength, self.score, self.money)?;
+        write!(f, "Weapons: [")?;
+        if let Some((last, weapons)) = self.weapons.split_last() {
+            for weapon in weapons {
+                write!(f, "{}, ", weapon)?;
+            }
+            write!(f, "{}", last)?;
         }
-        write!(f, "\n")
+        write!(f, "]")?;
+        Ok(())
     }
 }
 pub struct Fruit {
