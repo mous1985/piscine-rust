@@ -22,7 +22,6 @@ impl fmt::Display for Player {
         write!(f, "\n")
     }
 }
-
 pub struct Fruit {
 	pub weight_in_kg: f64,
 }
@@ -55,6 +54,17 @@ impl Food for Meat {
 	fn gives(&self) -> f64{
 		let protein=self.weight_in_kg-(self.fat_content*self.weight_in_kg);
 		let force_protein=protein * 4.0;
-		force_protein+(self.fat_content*self.weight_in_kg)
+		force_protein+(self.fat_content * 9.0 * self.weight_in_kg)
 	}
 }
+// this apple gives 4 units of strength
+// Before eating Player { name: "player1", strength: 1.0, score: 0, money: 0, weapons: ["knife"] }
+// After eating an apple
+// player1
+// Strength: 5, Score: 0, Money: 0
+// Weapons: ["knife"]
+// After eating a steak
+// player1
+// Strength: 14, Score: 0, Money: 0
+// Weapons: ["knife"]
+
