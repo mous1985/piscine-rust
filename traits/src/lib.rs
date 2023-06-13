@@ -8,20 +8,17 @@ pub struct Player {
 	pub weapons: Vec<String>,
 }
 impl fmt::Display for Player {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "Name: {}", self.name)?;
-        writeln!(f, "Strength: {}, Score: {}, Money: {}", self.strength, self.score, self.money)?;
-        write!(f, "Weapons: [\"")?;
-        if let Some((last, weapons)) = self.weapons.split_last() {
-            for weapon in weapons {
-                write!(f, "{}, ", weapon)?;
-            }
-            write!(f, "{}", last)?;
-        }
-        write!(f, "\"]")?;
-        Ok(())
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let output = format!("{}\nStrength: {}, Score: {}, Money: {}",
+                             self.name,self.strength, self.score, self.money);
+        let weapons: String = self.weapons.iter()
+                             .map(|weapon| format!("\"{}\"", weapon))
+                             .collect::<Vec<String>>()
+                             .join(", ");
+        write!(f, "{}\nWeapons: [{}]", output, weapons)
     }
 }
+
 pub struct Fruit {
 	pub weight_in_kg: f64,
 }
