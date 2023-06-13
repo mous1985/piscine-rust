@@ -11,14 +11,14 @@ impl fmt::Display for Player {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Name: {}", self.name)?;
         writeln!(f, "Strength: {}, Score: {}, Money: {}", self.strength, self.score, self.money)?;
-        write!(f, "Weapons: [")?;
+        write!(f, "Weapons: [\"")?;
         if let Some((last, weapons)) = self.weapons.split_last() {
             for weapon in weapons {
                 write!(f, "{}, ", weapon)?;
             }
             write!(f, "{}", last)?;
         }
-        write!(f, "]")?;
+        write!(f, "\"]")?;
         Ok(())
     }
 }
