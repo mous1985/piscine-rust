@@ -1,15 +1,18 @@
-use std::ops::{Mul,Add};
+use std::ops::Mul;
 
-#[derive(Debug, Clone)]
-struct Matrix<T>(Vec<Vec<T>>);
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Matrix<T>(pub Vec<Vec<T>>);
 
-impl<T> Matrix<T> {
+impl<T> Matrix<T>
+where
+    T: Clone + Default + Mul<Output = T> + std::ops::AddAssign<T>,
+{
+    pub fn new(data: Vec<Vec<T>>) -> Self {
+        Self(data)
+    }
+
     pub fn number_of_cols(&self) -> usize {
-        if let Some(row) = self.0.first() {
-            row.len()
-        } else {
-            0
-        }
+        self.0.first().map(Vec::len).unwrap_or(0)
     }
 
     pub fn number_of_rows(&self) -> usize {
@@ -17,47 +20,39 @@ impl<T> Matrix<T> {
     }
 
     pub fn row(&self, n: usize) -> Option<&[T]> {
-        self.0.get(n).map(|row| row.as_slice())
+        self.0.get(n).map(Vec::as_slice)
     }
 
-    pub fn col(&self, n: usize) -> Option<Vec<&T>> {
+    pub fn col(&self, n: usize) -> Vec<T> {
         if n >= self.number_of_cols() {
-            return None;
+            Vec::new()
+        } else {
+            self.0.iter().filter_map(|row| row.get(n).cloned()).collect()
         }
-
-        Some(self.0.iter().map(|row| &row[n]).collect())
     }
 }
 
 impl<T> Mul for Matrix<T>
 where
-    T: Mul<Output = T> + Add<Output = T> + Clone + Default,
+    T: Clone + Default + Mul<Output = T> + std::ops::AddAssign<T>,
 {
-    type Output = Option<Matrix<T>>;
+    type Output = Option<Self>;
 
-    fn mul(self, rhs: Matrix<T>) -> Option<Matrix<T>> {
+    fn mul(self, rhs: Self) -> Self::Output {
         if self.number_of_cols() != rhs.number_of_rows() {
             return None;
         }
-
-        let rows = self.number_of_rows();
-        let cols = rhs.number_of_cols();
-        let inner_len = self.number_of_cols();
-
-        let mut result = vec![vec![T::default(); cols]; rows];
-
-        for i in 0..rows {
-            for j in 0..cols {
+        let (p, m) = (self.number_of_rows(), rhs.number_of_cols());
+        let mut data = vec![vec![T::default(); m]; p];
+        for i in 0..p {
+            for j in 0..m {
                 let mut sum = T::default();
-                for k in 0..inner_len {
-                    sum = sum + self.0[i][k].clone() * rhs.0[k][j].clone();
+                for k in 0..self.number_of_cols() {
+                    sum += self.0[i][k].clone() * rhs.0[k][j].clone();
                 }
-                result[i][j] = sum;
+                data[i][j] = sum;
             }
         }
-
-        Some(Matrix(result))
+        Some(Self(data))
     }
 }
-
-
