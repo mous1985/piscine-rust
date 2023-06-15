@@ -5,36 +5,38 @@ pub struct Matrix<T>(pub Vec<Vec<T>>);
 
 impl<T> Matrix<T>
 where
-    T: Clone + Default + Mul<Output = T> + std::ops::AddAssign<T>,
+    T: Clone + Default + std::ops::Mul<Output = T> + std::ops::AddAssign<T>,
 {
-    pub fn new(data: Vec<Vec<T>>) -> Self {
-        Self(data)
+    pub fn new(matrix: Vec<Vec<T>>) -> Self {
+        Self(matrix)
     }
 
     pub fn number_of_cols(&self) -> usize {
-        self.0.first().map(Vec::len).unwrap_or(0)
+        self.0.first().map_or(0, |row| row.len())
     }
 
     pub fn number_of_rows(&self) -> usize {
         self.0.len()
     }
 
-    pub fn row(&self, n: usize) -> Option<&[T]> {
-        self.0.get(n).map(Vec::as_slice)
+    pub fn row(&self, n: usize) -> Vec<T> {
+        self.0.get(n).map_or(Vec::new(), |row| row.clone())
     }
 
     pub fn col(&self, n: usize) -> Vec<T> {
         if n >= self.number_of_cols() {
-            Vec::new()
-        } else {
-            self.0.iter().filter_map(|row| row.get(n).cloned()).collect()
+            return Vec::new();
         }
+        self.0
+            .iter()
+            .filter_map(|row| row.get(n).cloned())
+            .collect()
     }
 }
 
 impl<T> Mul for Matrix<T>
 where
-    T: Clone + Default + Mul<Output = T> + std::ops::AddAssign<T>,
+    T: Clone + Default + std::ops::Mul<Output = T> + std::ops::AddAssign<T>,
 {
     type Output = Option<Self>;
 
@@ -43,16 +45,14 @@ where
             return None;
         }
         let (p, m) = (self.number_of_rows(), rhs.number_of_cols());
-        let mut data = vec![vec![T::default(); m]; p];
+        let mut matrix = vec![vec![T::default(); m]; p];
         for i in 0..p {
             for j in 0..m {
-                let mut sum = T::default();
                 for k in 0..self.number_of_cols() {
-                    sum += self.0[i][k].clone() * rhs.0[k][j].clone();
+                    matrix[i][j] += self.0[i][k].clone() * rhs.0[k][j].clone();
                 }
-                data[i][j] = sum;
             }
         }
-        Some(Self(data))
+        Some(Self(matrix))
     }
 }
