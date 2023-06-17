@@ -30,18 +30,37 @@ impl GameSession {
         }
     }
     pub fn update_score(&mut self, user_name: String) {
-            let nbr_games=0;
-            let (p1_name, p1_score) = &mut self.p1;
-            let (p2_name, p2_score) = &mut self.p2;
-            if *p1_score == 3 || *p2_score == 3 || nbr_games==5{
-                return;
-            }
-            if user_name == *p1_name{
-                *p1_score += 1;
-            } else if user_name == *p2_name {
-                *p2_score += 1;
-            } 
+        let (p1_name, p1_score) = &mut self.p1;
+        let (p2_name, p2_score) = &mut self.p2;
+
+        if *p1_score >= self.nb_games / 2 + 1 || *p2_score >= self.nb_games / 2 + 1 {
+            return;
+        }
+        
+        if *p1_score + *p2_score >= self.nb_games {
+            return;
+        }
+
+        if user_name == *p1_name {
+            *p1_score += 1;
+        } else if user_name == *p2_name {
+            *p2_score += 1;
+        }
     }
+
+    // pub fn update_score(&mut self, user_name: String) {
+    //         let nbr_games=0;
+    //         let (p1_name, p1_score) = &mut self.p1;
+    //         let (p2_name, p2_score) = &mut self.p2;
+    //         if *p1_score == 3 || *p2_score == 3 || nbr_games==5{
+    //             return;
+    //         }
+    //         if user_name == *p1_name{
+    //             *p1_score += 1;
+    //         } else if user_name == *p2_name {
+    //             *p2_score += 1;
+    //         } 
+    // }
     
     pub fn delete(self) -> String {
         format!("game deleted: id -> {}", self.id)
