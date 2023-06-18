@@ -14,8 +14,8 @@ pub struct Worker {
 
 impl WorkEnvironment {
     pub fn new() -> WorkEnvironment {
-        let workEnv=WorkEnvironment{
-            grade:none,
+        WorkEnvironment{
+            grade:None
         }
     }
     pub fn add_worker(&mut self, role: String, name: String) {
