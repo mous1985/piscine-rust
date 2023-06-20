@@ -30,37 +30,34 @@ impl Cart {
         
     }
 
-    pub fn generate_receipt(&mut self)->Vec<f32>  {
+    pub fn generate_receipt(&mut self) -> Vec<f32>  {
+        
+        let mut nouv :Vec<f32>= Vec :: new();
+        
+        for i in self.items.iter() {
+            nouv.push(i.1);
+        }
+        let _ = nouv.sort_by(|a,b|a.partial_cmp(b).unwrap());
+        
 
-
-   
-    //  let mut result :Vec<f32>= Vec :: new();
-     let mut nouv :Vec<f32>= Vec :: new();
-    let _ = &self.items.sort_by(|a,b|a.partial_cmp(b).unwrap());
-    
-for i in self.items.iter(){
-    nouv.push(i.1);
-}
-
-      let  temp = nouv.len()/3;
-    
-     let total:f32 = nouv.iter().sum();
-    
-    
-    let  tab_prix_offert : Vec<_>= nouv[0..temp].iter().cloned().collect();
-    let prix:f32= tab_prix_offert.iter().sum();
-     let prix_reduc = total-prix;
-     
-    let prix_reduc_per = ((prix_reduc * 100.0)/total) / 100.0;
-    
- for i in nouv.iter(){
-        self.receipt.push(((i * prix_reduc_per * 100.0).round()) / 100.0)
-     }
-    
-    
-    // dbg!(prix_reduc_per);
-    self.receipt.sort_by(|a,b|a.partial_cmp(b).unwrap());
-     self.receipt.clone()
-    
+        println!("{:?}",nouv);
+        
+        let  temp = nouv.len()/3;
+        
+        let total:f32 = nouv.iter().sum();
+        
+        
+        let  tab_prix_offert : Vec<_>= nouv[0..temp].iter().cloned().collect();
+        
+        let prix:f32= tab_prix_offert.iter().sum();
+        
+        let prix_reduc = total-prix;
+        
+        let prix_reduc_per = (prix_reduc *100.0/total)/100.0;
+        
+        for &i in nouv.iter() {
+            self.receipt.push(((i * prix_reduc_per * 100.0).round()) / 100.0)
+        }
+    self.receipt.clone()
     }
 }
